@@ -4,7 +4,9 @@ import com.portfolio.api.DoctorApi;
 import com.portfolio.api.exceptions.DoctorNotFoundException;
 import com.portfolio.api.models.Doctor;
 import com.portfolio.dao.DoctorDao;
+import com.portfolio.dao.PatientDao;
 import com.portfolio.repositories.DoctorRepository;
+import com.portfolio.repositories.PatientRepository;
 import com.portfolio.srv.utils.DoctorMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Log4j2
@@ -22,6 +23,7 @@ public class DoctorSrv implements DoctorApi {
 
   private final DoctorRepository doctorRepository;
   private final DoctorMapper doctorMapper;
+  private final PatientRepository patientRepository;
 
   @Override
   public void createDoctor(Doctor doctor) {
@@ -40,6 +42,13 @@ public class DoctorSrv implements DoctorApi {
 
   @Override
   public void deleteDoctor(String id) {
+    doctorRepository.findById(id)
+        .orElseThrow(() -> new DoctorNotFoundException("Doctor with id: " + id + " not found"));
+    List<PatientDao> patients = patientRepository.findByDoctors_IdDoctor(id);
+    for (PatientDao patient : patients) {
+      patient.getDoctors().removeIf(doc -> doc.getIdDoctor().equals(id));
+      patientRepository.save(patient);
+    }
     doctorRepository.deleteById(id);
   }
 
