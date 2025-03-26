@@ -8,7 +8,6 @@ import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Builder(toBuilder = true)
 @Value
@@ -29,8 +28,8 @@ public class Appointment {
   Instant date;
 
   @JsonProperty(value = "idDoctor")
-  UUID idDoctor;
+  String idDoctor;
 
   @JsonProperty(value = "idPatient")
-  UUID idPatient;
+  String idPatient;
 }

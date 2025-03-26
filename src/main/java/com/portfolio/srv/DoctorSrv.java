@@ -34,7 +34,7 @@ public class DoctorSrv implements DoctorApi {
   @Override
   public void updateDoctor(Doctor doctor) {
     DoctorDao doctorDao = doctorRepository.findById(doctor.getIdDoctor())
-        .orElseThrow(() -> new DoctorNotFoundException("Doctor not found"));
+        .orElseThrow(() -> new DoctorNotFoundException("Doctor with id: " + doctor.getIdDoctor() + " not found"));
     doctorDao.setEmail(doctor.getEmail());
     doctorDao.setSchedule(doctor.getSchedule());
     doctorRepository.save(doctorDao);

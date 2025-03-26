@@ -24,7 +24,7 @@ public class AppointmentDao {
   @Temporal(TemporalType.TIMESTAMP)
   private Instant date;
 
-  private PatientDao patientDao;
+  private String idPatient;
 
-  private DoctorDao doctorDao;
+  private String idDoctor;
 }
