@@ -2,12 +2,12 @@ version: '3.8'
 services:
   mongodb:
     image: mongo:latest
-    container_name: mi_mongodb
+    container_name: hospital_db
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin123
-      MONGO_INITDB_DATABASE: mi_base_de_datos
+      MONGO_INITDB_DATABASE: hospital_db
     volumes:
       - mongo_data:/data/db
     ports:
