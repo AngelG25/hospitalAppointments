@@ -8,7 +8,6 @@ import com.portfolio.dao.DoctorDao;
 import com.portfolio.dao.PatientDao;
 import com.portfolio.repositories.DoctorRepository;
 import com.portfolio.repositories.PatientRepository;
-import com.portfolio.srv.utils.DoctorMapper;
 import com.portfolio.srv.utils.PatientMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Log4j2
@@ -26,7 +26,6 @@ public class PatientSrv implements PatientApi {
   private final PatientRepository patientRepository;
   private final PatientMapper patientMapper;
   private final DoctorRepository doctorRepository;
-  private final DoctorMapper doctorMapper;
 
   @Override
   public void createPatient(Patient patient) {
@@ -45,15 +44,27 @@ public class PatientSrv implements PatientApi {
   public void updatePatient(Patient patient) {
     PatientDao patientDao = patientRepository.findById(patient.getIdPatient())
         .orElseThrow(() -> new PatientNotFoundException("Patient not found"));
+
     patientDao.setEmail(patient.getEmail());
-    List<DoctorDao> doctors = patient.getDoctors()
+
+    List<DoctorDao> existingDoctors = patientDao.getDoctors();
+
+    List<DoctorDao> updatedDoctors = patient.getDoctors()
         .stream()
         .map(doctor -> doctorRepository.findById(doctor.getIdDoctor())
-            .orElse(doctorMapper.toDao(doctor)))
+            .orElse(null))
+        .filter(Objects::nonNull)
         .toList();
-    patientDao.setDoctors(doctors);
+
+    if (!updatedDoctors.isEmpty()) {
+      patientDao.setDoctors(updatedDoctors);
+    } else {
+      patientDao.setDoctors(existingDoctors);
+    }
+
     patientRepository.save(patientDao);
   }
+
 
   @Override
   public void deletePatient(String id) {
