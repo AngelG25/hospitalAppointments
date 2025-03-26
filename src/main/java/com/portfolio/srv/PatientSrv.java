@@ -70,11 +70,6 @@ public class PatientSrv implements PatientApi {
   public void deletePatient(String id) {
     patientRepository.findById(id)
         .orElseThrow(() -> new PatientNotFoundException("Patient with id: " + id + " not found"));
-    List<DoctorDao> doctorsWithPatient = doctorRepository.findByPatients_IdPatient(id);
-    for (DoctorDao doctor : doctorsWithPatient) {
-      doctor.getPatients().removeIf(pat -> pat.getIdPatient().equals(id));
-      doctorRepository.save(doctor);
-    }
     patientRepository.deleteById(id);
   }
 
