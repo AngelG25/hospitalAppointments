@@ -35,6 +35,16 @@ public class AppointmentRest {
     return appointmentApi.getAppointmentById(idAppointment);
   }
 
+  @GetMapping("/findAllByDoctorId/{idDoctor}")
+  public List<Appointment> getAppointmentByDoctor(@PathVariable String idDoctor) {
+    return appointmentApi.getAppointmentsByDoctorId(idDoctor);
+  }
+
+  @GetMapping("/findAllByPatientId/{idPatient}")
+  public List<Appointment> getAppointmentByPatient(@PathVariable String idPatient) {
+    return appointmentApi.getAppointmentsByPatientId(idPatient);
+  }
+
   @PostMapping("/")
   public void createAppointment(@RequestBody Appointment appointment) {
     appointmentApi.createAppointment(appointment);

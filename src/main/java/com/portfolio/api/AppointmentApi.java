@@ -3,7 +3,6 @@ package com.portfolio.api;
 import com.portfolio.api.models.Appointment;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface AppointmentApi {
 
@@ -37,4 +36,18 @@ public interface AppointmentApi {
    * @param id of the appointment to be deleted
    */
   void deleteAppointment(String id);
+
+  /**
+   * Get all the appointments of the specified patient
+   * @param patientId id of the patient
+   * @return all the appointments of the patient
+   */
+  List<Appointment> getAppointmentsByPatientId(String patientId);
+
+  /**
+   * Get all the appointments of the specified doctor
+   * @param doctorId id of the doctor
+   * @return all the appointments of the doctor
+   */
+  List<Appointment> getAppointmentsByDoctorId(String doctorId);
 }
