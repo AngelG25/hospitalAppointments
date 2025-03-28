@@ -1,7 +1,8 @@
 # Hospital Management System
 
 ## Descripción
-Este proyecto es un sistema de gestión hospitalaria desarrollado con **Spring Boot** y **Java**, utilizando **MongoDB** como base de datos. Permite la administración de **pacientes**, **doctores** y **citas médicas (appointments)**, manejando relaciones entre estas entidades de manera eficiente.
+Este proyecto es un sistema de gestión hospitalaria desarrollado con **Spring Boot** y **Java**, utilizando **MongoDB** como base de datos. Permite la administración de **pacientes**, **doctores** y **citas médicas (appointments)**, manejando relaciones entre estas entidades de manera eficiente. Además, mandará un correo tanto al doctor como al paciente cuando se cree o se modifique una cita cualquiera, informando en todo momento de las modificaciones.
+Para probar el sistema se tiene la colección de Postman.
 
 ## Tecnologías Utilizadas
 - **Java 17+**
