@@ -3,7 +3,6 @@ package com.portfolio.api;
 import com.portfolio.api.models.Patient;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface PatientApi {
 
