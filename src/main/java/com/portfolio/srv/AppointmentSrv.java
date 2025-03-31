@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.annotation.ApplicationScope;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -109,13 +111,25 @@ public class AppointmentSrv implements AppointmentApi {
 
     String doctorEmail = doctorDao.getEmail();
     String patientEmail = patientDao.getEmail();
-    String subject = "New date programmed";
+    String subject = "Date information";
+    String formattedDate = formatDate(appointment);
     String message = String.format(
-        "Hello,<br><br>A new date has been programmed.<br><br><b>Doctor:</b> %s %s<br><b>Patient:</b> %s %s<br><b>Date:</b> %s<br><br>Greetings.",
+        "Hello from the hospital department,"
+        + "<br><br>A new date has been programmed with the following configuration: "
+        + ".<br><br><b>Doctor:</b> %s %s"
+        + "<br><b>Patient:</b> %s %s"
+        + "<br><b>Date:</b> %s"
+        + "<br><br>Greetings.",
         doctorDao.getFirstName(), doctorDao.getLastName(), patientDao.getFirstName(), patientDao.getLastName(),
-        appointment.getDate());
+        formattedDate);
 
     emailService.sendEmail(doctorEmail, subject, message);
     emailService.sendEmail(patientEmail, subject, message);
+  }
+
+  private static String formatDate(Appointment appointment) {
+    Date myDate = Date.from(appointment.getDate());
+    SimpleDateFormat formatter = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+    return formatter.format(myDate);
   }
 }

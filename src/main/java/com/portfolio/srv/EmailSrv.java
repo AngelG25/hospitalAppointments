@@ -15,20 +15,20 @@ public class EmailSrv {
 
   private final JavaMailSender mailSender;
 
-  public void sendEmail(String to, String subject, String body) {
+  public void sendEmail(String destinatary, String subject, String body) {
     try {
       MimeMessage message = mailSender.createMimeMessage();
       MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-      helper.setTo(to);
+      helper.setTo(destinatary);
       helper.setSubject(subject);
       helper.setText(body, true);
 
       mailSender.send(message);
-      log.info("Email sent to {}", to);
+      log.info("Email sent to {}", destinatary);
 
     } catch (MessagingException e) {
-      log.error("Error sending mail to {}: {}", to, e.getMessage());
+      log.error("Error sending mail to {}: {}", destinatary, e.getMessage());
     }
   }
 }
