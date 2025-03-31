@@ -18,11 +18,7 @@ public class EmailSrv {
   public void sendEmail(String destinatary, String subject, String body) {
     try {
       MimeMessage message = mailSender.createMimeMessage();
-      MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-      helper.setTo(destinatary);
-      helper.setSubject(subject);
-      helper.setText(body, true);
+      configureMessage(destinatary, subject, body, message);
 
       mailSender.send(message);
       log.info("Email sent to {}", destinatary);
@@ -30,5 +26,14 @@ public class EmailSrv {
     } catch (MessagingException e) {
       log.error("Error sending mail to {}: {}", destinatary, e.getMessage());
     }
+  }
+
+  private static void configureMessage(String destinatary, String subject, String body, MimeMessage message)
+      throws MessagingException {
+    MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+    helper.setTo(destinatary);
+    helper.setSubject(subject);
+    helper.setText(body, true);
   }
 }
