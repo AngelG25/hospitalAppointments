@@ -29,15 +29,14 @@ El sistema sigue una arquitectura basada en capas:
 ```
 
 ### 2. Configurar MongoDB
-El sistema requiere una instancia de **MongoDB** en ejecución. Puedes utilizar Docker para iniciarla fácilmente:
-```sh
-docker run -d -p 27017:27017 --name hospital-mongo mongo:latest
-```
+El sistema requiere una instancia de **MongoDB** en ejecución. Puedes utilizar Docker para iniciarla fácilmente, para ello
+se ha generado un fichero dockerfile.yml que al arrancarlo arrancará un container de MongoDB para su uso en el puerto 27017
 
 ### 3. Configurar el archivo `application.properties`
 Ubicado en `src/main/resources/application.properties`:
 ```properties
 spring.data.mongodb.uri=mongodb://localhost:27017/hospital_db
+configurar el correo y contraseña de aplicación para permitir mandar correos
 ```
 
 ### 4. Construcción y Ejecución
